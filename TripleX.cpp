@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 
 void PrintIntroduction(int CurrentDifficulty)
 {
@@ -11,15 +12,18 @@ bool PlayGame(int CurrentDifficulty)
 {
     PrintIntroduction(CurrentDifficulty);
 
+    const int CodeA = rand() % CurrentDifficulty + CurrentDifficulty;
+    const int CodeB = rand() % CurrentDifficulty + CurrentDifficulty;
+    const int CodeC = rand() % CurrentDifficulty + CurrentDifficulty;
     int GuessA, GuessB, GuessC;
     std::cin >> GuessA >> GuessB >> GuessC;
     std::cout << "You entered: " << GuessA << GuessB << GuessC<< std::endl;
     int GuessSum = GuessA + GuessB + GuessC;
     int GuessProduct = GuessA * GuessB * GuessC;
-    const int resultSum = 10;
-    const int resultProduct = 30;
+    const int resultSum = CodeA + CodeB + CodeC;
+    const int resultProduct = CodeA * CodeB * CodeC;
 
-    if(GuessSum == resultSum && GuessProduct == resultProduct)
+    if (GuessSum == resultSum && GuessProduct == resultProduct)
     {
         std::cout << "You win! The sum is: " << GuessSum << " and the product is: " << GuessProduct << std::endl;
         return true;
@@ -33,8 +37,12 @@ bool PlayGame(int CurrentDifficulty)
 
 int main()
 {
+    srand (time(NULL));
+
     int LevelDifficulty = 1;
-    while(true)
+    const int MaxLevel = 5;
+
+    while (LevelDifficulty <= MaxLevel)
     {
         bool bLevelComplete = PlayGame(LevelDifficulty);
         std::cin.clear();
@@ -42,9 +50,13 @@ int main()
 
         if (bLevelComplete)
         {
-            ++LevelDifficulty;
+            if (LevelDifficulty <= MaxLevel)
+            {
+                ++LevelDifficulty;
+            }
         }
     }
 
+    std::cout << "End game" << std::endl;
     return 0;
 }
